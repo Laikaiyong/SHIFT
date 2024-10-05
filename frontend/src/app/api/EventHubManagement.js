@@ -3,7 +3,7 @@ import Web3 from "web3";
 
 let web3;
 if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
-  web3 = new Web3(window.ethereum);
+  web3 = new Web3(window?.ethereum);
 } else {
   // Handle the case when window or window.ethereum is not defined
   web3 = new Web3();
@@ -38,7 +38,7 @@ export const voteForEvent = async (eventId) => {
     try {
         // Ensure the user is connected with MetaMask and authorized
         if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
-            await window.ethereum.request({ method: "eth_requestAccounts" });
+            await window?.ethereum.request({ method: "eth_requestAccounts" });
         } else {
             throw new Error('MetaMask is not available.');
         }
