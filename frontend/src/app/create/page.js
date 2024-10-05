@@ -30,7 +30,7 @@ export default function EventCreationForm() {
 
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal className="my-auto mx-auto bg-white text-black" isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
