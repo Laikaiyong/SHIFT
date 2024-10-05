@@ -188,7 +188,7 @@ const CommunityPage = () => {
       </div> */}
       <div className="my-12 grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-2">
         {Communities.map((card, index) => (
-          <Modal  >
+          <Modal key={index}  >
             <ModalTrigger className="flex justify-center group/modal-btn" onClick={generateDescription()}>
                   <CommunityCardv2
                     key={index}
