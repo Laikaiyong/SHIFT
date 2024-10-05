@@ -84,7 +84,7 @@ const Dashboard = () => {
               <Image src="/shift.png" alt="Shift Logo" width={200} height={200} />
             </div>
             <h1 className="text-5xl font-bold text-green-800 mb-12">
-              Welcome to Shift, we are REDFINING
+              Welcome to Shift, we are REDEFINING
             </h1>
             <div className="m-10 flex flex-wrap justify-center items-center gap-8">
               {cards.map((card, index) => (
