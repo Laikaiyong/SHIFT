@@ -1,4 +1,5 @@
-pragma solidity ^0.8.0;
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.27;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -11,19 +12,17 @@ contract BountyContract {
         bool isClaimed;
     }
 
-    IERC20 public token;
     mapping(uint256 => Bounty) public bounties;
     uint256 public bountyCount;
 
     event BountyCreated(uint256 indexed id, string title, uint256 amount, address creator);
     event BountyClaimed(uint256 indexed id, address claimedBy);
 
-    constructor(IERC20 _token) {
-        token = _token;
+    constructor() {
+        // Removed token initialization
     }
 
     function createBounty(string memory _title, uint256 _amount) external {
-        require(token.transferFrom(msg.sender, address(this), _amount), "Transfer failed");
         bountyCount++;
         bounties[bountyCount] = Bounty(_title, _amount, msg.sender, address(0), false);
         emit BountyCreated(bountyCount, _title, _amount, msg.sender);
@@ -34,7 +33,7 @@ contract BountyContract {
         require(!bounty.isClaimed, "Bounty already claimed");
         bounty.isClaimed = true;
         bounty.claimedBy = msg.sender;
-        require(token.transfer(msg.sender, bounty.amount), "Transfer failed");
+        // Removed token transfer logic
         emit BountyClaimed(_id, msg.sender);
     }
 }
