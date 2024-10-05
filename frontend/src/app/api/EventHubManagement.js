@@ -10,7 +10,7 @@ if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
 }
 
 const contractAddress = "0xeBdF352B7A61Dc246D415D9A964C81c6522fF640";
-const signer = ethereum.selectedAddress;
+const signer = typeof window !== 'undefined' ? window.ethereum.selectedAddress : null;
 const contract = new web3.eth.Contract(abi, contractAddress);
 
 // Submit an event

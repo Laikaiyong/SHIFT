@@ -4,7 +4,7 @@ import abi from "../../abi/Prompt.json";
 const contractAddress = "0xfD32a168D02Ce01A28180d4679f18a8db021279C"; // Replace with your actual contract address
 
 // Initialize Web3 provider and contract
-const web3 = typeof window !== 'undefined' ? new Web3(window.ethereum) : null;
+const web3 = typeof window !== 'undefined' ? new Web3(window?.ethereum) : null;
 const contract = new web3.eth.Contract(abi, contractAddress);
 
 // Function to get the address of the AI Oracle

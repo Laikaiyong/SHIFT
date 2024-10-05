@@ -7,7 +7,7 @@ import { Tabs } from "@/components/ui/tabs";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { GlareCard } from "@/components/ui/glare-card";
 import {voteForEvent} from "../api/EventHubManagement.js";
-import {calculateAIResult } from "../api/prompts.js";
+// import {calculateAIResult } from "../api/prompts.js";
 
 import {
   Modal,
@@ -23,22 +23,9 @@ import {
   IconWorldWww
 } from "@tabler/icons-react";
 
-
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
 import Image from "next/image";
 import axios from "axios";
 
-const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-  generationConfig: {
-    candidateCount: 1,
-    stopSequences: ["x"],
-    maxOutputTokens: 20,
-    temperature: 1.0,
-  },
-});
 // const prompt = "Write a story about a magic backpack.";
 
 // const result = await model.generateContent(prompt);
