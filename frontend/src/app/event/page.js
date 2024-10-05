@@ -177,14 +177,13 @@ const EventCard = ({ title, description, image, link, date, venue }) => {
 
 const EventPage = () => {
     const [date, setDate] = React.useState(new Date());
-    console.log(date);
     const timelineRefs = useRef({});
 
     const TimelineData = [
         {
-            title: "Oct 2024",
+            title: "6 Oct 2024",
             content: (
-                <div ref={el => timelineRefs.current['10-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+                <div ref={el => timelineRefs.current['6-10-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
                     {eventCardsData
                         .filter(event => new Date(event.date).getMonth() === 9) // December is month 11 (0-indexed)
                         .map((event, index) => (
@@ -202,9 +201,9 @@ const EventPage = () => {
             ),
         },
         {
-            title: "Nov 2024",
+            title: "7 Oct 2024",
             content: (
-                <div ref={el => timelineRefs.current['11-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+                <div ref={el => timelineRefs.current['7-10-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
                     {eventCardsData
                         .filter(event => new Date(event.date).getMonth() === 10) // November is month 10 (0-indexed)
                         .map((event, index) => (
@@ -222,9 +221,9 @@ const EventPage = () => {
             ),
         },
         {
-            title: "Dec 2024",
+            title: "8 Oct 2024",
             content: (
-                <div ref={el => timelineRefs.current['12-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+                <div ref={el => timelineRefs.current['8-10-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
                     {eventCardsData
                         .filter(event => new Date(event.date).getMonth() === 11) // October is month 9 (0-indexed)
                         .map((event, index) => (
@@ -258,24 +257,24 @@ const EventPage = () => {
 
     return (
         <div>
-            <BackgroundLines className="flex items-center justify-center w-full flex-col px-4 bg-grey-200">
+            <BackgroundLines className="flex items-start justify-center w-full flex-col px-4">
             <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-8 bg-clip-text text-transparent bg-gradient-to-b from-green-800 via-neutral-700 to-green-700 dark:from-green-800 dark:via-white dark:to-white">
                 Level up your experiences by <br /> joining <Cover>exciting events</Cover>
             </h1>
             </BackgroundLines>
-            <div className="flex flex-row">
-                <div >
+                        <div className="flex flex-col sm:flex-row px-4">
+                <div>
                     <Timeline data={TimelineData} />
                 </div>
                 <div className="mt-12">
-                    <div>
+                    <div className="hidden sm:block">
                         <Calendar
                             mode="single"
                             selected={date}
                             onSelect={handleDateChange}
                             className="rounded-md border"
                         />
-                    </div>
+                    </div> 
                 </div>
             </div>
         </div>

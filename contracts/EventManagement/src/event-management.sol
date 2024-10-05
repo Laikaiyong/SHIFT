@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.0;
 
 contract EventHubManagement {
     struct Event {
@@ -8,13 +8,18 @@ contract EventHubManagement {
         uint256 endDateTime;   // Unix timestamp for event end
         address organizer;
         bool isApproved;
+        uint256 numbersOfVote;
     }
 
     mapping(uint256 => Event) public events;
     uint256 public eventCount;
 
+    // Mapping to track if a user has voted for a specific event
+    mapping(uint256 => mapping(address => bool)) public hasVoted;
+
     event EventSubmitted(uint256 indexed id, string name, uint256 startDateTime, uint256 endDateTime, address organizer);
     event EventApproved(uint256 indexed id);
+    event VotedForEvent(uint256 indexed eventId, address voter);
 
     // Function to submit and schedule an event in one step
     function submitEvent(string memory _name, uint256 _startDateTime, uint256 _endDateTime) external {
@@ -22,7 +27,7 @@ contract EventHubManagement {
         require(!hasConflict(_startDateTime, _endDateTime), "Time slot conflict");
 
         eventCount++;
-        events[eventCount] = Event(_name, _startDateTime, _endDateTime, msg.sender, false);
+        events[eventCount] = Event(_name, _startDateTime, _endDateTime, msg.sender, false, 0);
 
         emit EventSubmitted(eventCount, _name, _startDateTime, _endDateTime, msg.sender);
     }
@@ -32,6 +37,20 @@ contract EventHubManagement {
         require(!events[_id].isApproved, "Event already approved");
         events[_id].isApproved = true;
         emit EventApproved(_id);
+    }
+
+    // Function to vote for an event
+    function voteForEvent(uint256 _eventId) external {
+        require(events[_eventId].isApproved, "Event is not approved");
+        require(!hasVoted[_eventId][msg.sender], "You have already voted for this event");
+
+        // Mark that the user has voted
+        hasVoted[_eventId][msg.sender] = true;
+
+        // Increment the number of votes
+        events[_eventId].numbersOfVote++;
+
+        emit VotedForEvent(_eventId, msg.sender);
     }
 
     // Function to check if there are any conflicts with existing events

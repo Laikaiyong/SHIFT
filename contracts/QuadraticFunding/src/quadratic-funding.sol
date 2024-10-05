@@ -25,8 +25,7 @@ contract QuadraticFunding {
     event EventSubmitted(uint256 indexed id, string name, uint256 startDateTime, uint256 endDateTime, address organizer);
     event EventApproved(uint256 indexed id);
 
-    constructor(IERC20 _token, uint256 _matchingPoolAmount) {
-        token = _token;
+    constructor( uint256 _matchingPoolAmount) {
         matchingPoolAmount = _matchingPoolAmount;
     }
 

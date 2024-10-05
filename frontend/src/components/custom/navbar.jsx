@@ -1,14 +1,10 @@
 "use client";
 
 import BlockchainHashDisplay from "./blockchain_hash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { IDKitWidget, VerificationLevel } from "@worldcoin/idkit";
-import { cookieStorage, createStorage, http } from "@wagmi/core";
-import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
-import { mainnet, arbitrum } from "@reown/appkit/networks";
-import { EthereumProvider } from "@walletconnect/ethereum-provider";
 import Image from "next/image";
-import { useSDK, MetaMaskProvider } from "@metamask/sdk-react";
+// import { useSDK, MetaMaskProvider } from "@metamask/sdk-react";
 import { Popover, PopoverTrigger, PopoverContent } from "../ui/popover";
 
 const formatAddress = (addr) => {
@@ -17,40 +13,64 @@ const formatAddress = (addr) => {
 
 export default function Navbar() {
   const host =
-    typeof window !== "undefined" ? window.location.href : "http://localhost:3000";
+    typeof window !== "undefined"
+      ? window.location.href
+      : "http://localhost:3000";
 
-  const sdkOptions = {
-    logging: { developerMode: true },
-    checkInstallationImmediately: true,
-    dappMetadata: {
-      name: "SHIFT",
-      url: host, // using the host constant defined above
-    },
-    infuraAPIKey: process.env.NEXT_PUBLIC_INFURA_API_KEY,
-  };
   const [worldId, setWorldId] = useState("");
 
-  const { sdk, connected, connecting, account } = useSDK();
+  const [account, setAccount] = useState();
 
-  const connect = async () => {
-    console.log(sdkOptions);
-    try {
-      await sdk?.connect();
-    } catch (err) {
-      console.warn(`No accounts found`, err);
+  //   const { sdk, connected, connecting, provider, chainId } = useSDK();
+
+  const connect = useCallback(async () => {
+      const ethereum = window.ethereum;
+      // Check if MetaMask is installed
+      if (typeof ethereum !== "undefined") {
+          try {
+        // Request access to the user's MetaMask accounts
+        // ethereum.connect();
+        const accounts = await ethereum.request({
+            method: "eth_requestAccounts",
+            //   "params": [
+                //     '0x8274f'
+                //   ],
+            });
+            window.ethereum.enable();
+        // Sign a message to confirm ownership
+        //       const messageToSign = "SHIFT in"; // Customize this message
+
+        // window.ethereum.request({
+        //       method: 'personal_sign',
+        //       params: [messageToSign, accounts[0]],
+        // })
+        //   const signature = await web3.eth.personal.sign(messageToSign, accounts[0]);
+
+        // Get the connected Ethereum address
+        // const address = ethereum.selectedAddress;
+        const address = accounts[0];
+        setAccount(address);
+        // Check address in console of web browser
+        // console.log("connected to MetaMask with address: ", address);
+      } catch (error) {
+        alert(`Error connecting to MetaMask: ${error?.message ?? error}`);
+      }
+    } else {
+      alert("MetaMask not installed");
     }
-  };
+  }, []);
 
   const disconnect = () => {
-    if (sdk) {
-      sdk.terminate();
-    }
+    setAccount();
   };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (localStorage.getItem("worldId")) {
         setWorldId(localStorage.getItem("worldId"));
+      }
+      if (window.ethereum && window.ethereum.isConnected) {
+        setAccount(window.ethereum.selectedAddress);
       }
     }
   }, []);
@@ -90,7 +110,38 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <Image src="/shift.png" alt="Shift Logo" width={100} height={50} />
-      {worldId != "" && <BlockchainHashDisplay hash={worldId} />}
+      <Popover>
+            <PopoverTrigger>
+            <div className="flex align-middle justify-center">
+                <Image
+                  className="mr-4 my-auto"
+                  src="/worldcoin.png"
+                  width={20}
+                  height={20}
+                />
+      {worldId != "" && (
+        <BlockchainHashDisplay hash={worldId} />
+      )}
+      {
+        worldId == "" && (
+            <p className="text-black">
+            Not Verified
+        </p>
+        )
+      }
+                </div>
+            </PopoverTrigger>
+            <PopoverContent className="mt-2 w-44 bg-gray-100 border rounded-md shadow-lg right-0 z-10 top-10">
+              <button
+                onClick={() => {
+                    localStorage.setItem("worldId", "");
+                    setWorldId("");
+                }}
+                className="block w-full pl-2 pr-4 py-2 text-left text-[#F05252] hover:bg-gray-200">
+                Disconnect
+              </button>
+            </PopoverContent>
+          </Popover>
       <button className="retro">
         {worldId == "" ? (
           <IDKitWidget
@@ -114,44 +165,39 @@ export default function Navbar() {
               </button>
             )}
           </IDKitWidget>
-        ) : (
-          <MetaMaskProvider debug={false} sdkOptions={sdkOptions}>
-            {connected ? (
-              <Popover>
-                <PopoverTrigger>
-                  <button>
-                    <Image
-                      className="mr-4 my-auto"
-                      src="/scroll.png"
-                      width={20}
-                      height={20}
-                    />
-                    {formatAddress(account)}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="mt-2 w-44 bg-gray-100 border rounded-md shadow-lg right-0 z-10 top-10">
-                  <button
-                    onClick={disconnect}
-                    className="block w-full pl-2 pr-4 py-2 text-left text-[#F05252] hover:bg-gray-200">
-                    Disconnect
-                  </button>
-                </PopoverContent>
-              </Popover>
-            ) : (
-              <button
-                disabled={connecting}
-                onClick={connect}
-                className="flex align-middle justify-center">
+        ) : account ? (
+          <Popover>
+            <PopoverTrigger>
+              <button className="flex align-middle justify-center">
                 <Image
                   className="mr-4 my-auto"
-                  src="/unscroll.png"
+                  src="/scroll.png"
                   width={20}
                   height={20}
                 />
-                Connect
+                {formatAddress(account)}
               </button>
-            )}
-          </MetaMaskProvider>
+            </PopoverTrigger>
+            <PopoverContent className="mt-2 w-44 bg-gray-100 border rounded-md shadow-lg right-0 z-10 top-10">
+              <button
+                onClick={disconnect}
+                className="block w-full pl-2 pr-4 py-2 text-left text-[#F05252] hover:bg-gray-200">
+                Disconnect
+              </button>
+            </PopoverContent>
+          </Popover>
+        ) : (
+          <button
+            onClick={connect}
+            className="flex align-middle justify-center">
+            <Image
+              className="mr-4 my-auto"
+              src="/unscroll.png"
+              width={20}
+              height={20}
+            />
+            Connect
+          </button>
         )}
       </button>
     </nav>

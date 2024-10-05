@@ -287,7 +287,7 @@ const cards = [
                     redemption, and sacrifice, capturing the essence of human emotions and
                     relationships. With a gripping narrative and memorable music,
                     Aawarapan has garnered a massive fan following both in
-                    India and abroad, solidifying Emraan Hashmi's status as a
+                    India and abroad, solidifying Emraan Hashmi&apos;s status as a
                     versatile actor.
                   </p>)
       );

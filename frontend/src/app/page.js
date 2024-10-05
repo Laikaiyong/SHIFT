@@ -75,8 +75,6 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="m-0 p-0">
-      <Navbar />
       <main className="main" style={{ margin: 0 }}>
         <div className="flex flex-col min-h-screen bg-white">
           <div className="flex-grow flex flex-col items-center justify-center p-8">
@@ -107,7 +105,6 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
-    </div>
   );
 };
 

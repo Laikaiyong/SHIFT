@@ -78,13 +78,13 @@ const SVG = ({
   ];
   return (
     (<motion.svg
-      viewBox="0 0 1440 900"
+      viewBox="0 0 1600 300"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
-      className="absolute inset-0 w-full h-full">
+      className="absolute inset-0 w-full">
       {paths.map((path, idx) => (
         <motion.path
           d={path}

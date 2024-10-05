@@ -37,7 +37,7 @@ export const stats = [
   ];
 
 
-  const FundingCard = ({ text, title, description, buttonText }) => {
+  const CommunityCard = ({ text, title, description, buttonText }) => {
     return (
         <div className="border border-black/[0.2] dark:border-white/[0.2] flex flex-col items-center max-w-sm mx-auto p-4 relative h-[30rem]">
             <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
@@ -60,27 +60,59 @@ export const stats = [
     );
 };
 
-const FundingProjects = [
+const CommunityCardv2 = ({ title, description, buttonText, image, href }) => {
+  return(
+    <a href={href} className="block">
+    <GlareCard className="flex flex-col items-center justify-center p-6">
+      <Image
+              src={image}
+              height="200"
+              width="200"
+              className="mx-12 h-44 w-full object-cover rounded-xl group-hover/card:shadow-xl"
+              alt="thumbnail"
+          />
+      <p className="text-white font-bold text-xl mt-4">{title}</p>
+      <p className="text-white font-normal text-sm mt-4">{description}</p>
+      <p className="text-sm border font-light border-white/[0.2] rounded-full mt-4 text-white dark:text-white px-2 py-0.5 hover:bg-blue-500 hover:text-white hover:border-blue-500">
+          {buttonText}
+      </p>
+    </GlareCard>
+    </a>
+  );
+}
+
+const Communities = [
   {
-      text: "ETHKL",
-      title: "Hover over this card to reveal an awesome effect.",
+      text: "hover",
+      title: "ETH Kuala Lumpur 2024",
       description: "Running out of copy here.",
       buttonText: "Fund this project",
-      category: "tools"
+      image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,quality=75,width=1250,height=357.14285714285717/calendar-cover-images/4i/efe41956-0d33-485d-975f-7c5c47a5c2d2",
+      href: "https://www.2024.ethkl.org/",
+  },
+  {
+    text: "hover",
+    title: "ETH Kuala Lumpur 2024",
+    description: "Running out of copy here.",
+    buttonText: "Fund this project",
+    image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,quality=75,width=1250,height=357.14285714285717/calendar-cover-images/4i/efe41956-0d33-485d-975f-7c5c47a5c2d2",
+    href: "https://www.2024.ethkl.org/",
   },
   {
       text: "click",
-      title: "Click on this card to reveal more details.",
+      title: "ETH Kuala Lumpur 2024",
       description: "More copy needed here.",
       buttonText: "Support this project",
-      category: "education"
+      image: "https://images.unsplash.com/photo-1629910190000-4b3b3b3b3b3b",
+      href: "https://www.2024.ethkl.org/",
   },
   {
     text: "click",
-    title: "Click on this card to reveal more details.",
+    title: "ETH Kuala Lumpur 2024",
     description: "More copy needed here.",
     buttonText: "Support this project",
-    category: "research"
+    image: "https://images.unsplash.com/photo-1629910190000-4b3b3b3b3b3b",
+    href: "https://www.2024.ethkl.org/",
   },
 ];
 
@@ -100,19 +132,19 @@ const words = [
   },
 ];
 
-const FundingPage = () => {
+const CommunityPage = () => {
   return (
       <div className="my-16 max-w-7xl mx-auto text-center item-center pb-24"> {/* Added pb-24 for bottom padding */}
           <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
-              Unleash the potential of <Cover>Quadratic Funding</Cover>
+              For Communities <Cover>By Communities</Cover>
           </h1>
           <div className="max-w-6xl mx-auto px-8">
               <HoverEffect items={stats} />
           </div>
           <TypewriterEffect words={words} className="text-sm"/>
           <div className="mx-auto my-12 grid md:grid-cols-3 grid-cols-1 gap-6"> {/* Added gap-6 for space between cards */}
-              {FundingProjects.map((card, index) => (
-                  <FundingCard
+              {Communities.map((card, index) => (
+                  <CommunityCard
                       key={index}
                       text={card.text}
                       title={card.title}
@@ -120,35 +152,25 @@ const FundingPage = () => {
                       buttonText={card.buttonText}
                   />
               ))}
-              <GlareCard className="flex flex-col items-center justify-center">
-      <svg
-        width="66"
-        height="65"
-        viewBox="0 0 66 65"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-7 w-7 text-white"
-      >
-        <path
-          d="M8 8.05571C8 8.05571 54.9009 18.1782 57.8687 30.062C60.8365 41.9458 9.05432 57.4696 9.05432 57.4696"
-          stroke="currentColor"
-          strokeWidth="15"
-          strokeMiterlimit="3.86874"
-          strokeLinecap="round"
-        />
-      </svg>
-      <Image
-                src="https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,quality=75,width=1250,height=357.14285714285717/calendar-cover-images/4i/efe41956-0d33-485d-975f-7c5c47a5c2d2"
-                height="600"
-                width="1000"
-                className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-                alt="thumbnail"
-            />
-      <p className="text-white font-bold text-xl mt-4">Aceternity</p>
-    </GlareCard>
+              <a href="https://www.2024.ethkl.org/" className="block">
+              
+            </a>
+          </div>
+          <div className="mx-auto my-12 grid md:grid-cols-4 grid-cols-1 gap-6"> {/* Added gap-6 for space between cards */}
+              {Communities.map((card, index) => (
+                  <CommunityCardv2
+                      key={index}
+                      text={card.text}
+                      title={card.title}
+                      description={card.description}
+                      buttonText={card.buttonText}
+                      image={card.image}
+                      href={card.href}
+                  />
+              ))}              
           </div>
       </div>
   );
 };
 
-export default FundingPage;
+export default CommunityPage;

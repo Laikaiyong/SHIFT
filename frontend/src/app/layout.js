@@ -7,8 +7,11 @@ import {
   IconCalendarEvent,
   IconEye,
   IconMoneybag,
+  IconUsers,
+  IconPlus,
 } from "@tabler/icons-react";
 import { FloatingDock } from "@/components/ui/floating-dock";
+import Navbar from "@/components/custom/navbar";
 
 const navItems = [
   {
@@ -17,15 +20,15 @@ const navItems = [
     icon: <IconHome className="h-6 w-6 text-green-800" />,
   },
   {
-    title: "Funding",
-    href: "/funding",
-    icon: <IconTrendingUp className="h-6 w-6 text-green-800" />,
-  },
-  {
-    title: "Community Hub",
+    title: "Community",
     href: "/community",
-    icon: <IconMeeple className="h-6 w-6 text-green-800" />,
+    icon: <IconUsers className="h-6 w-6 text-green-800" />,
   },
+  // {
+  //   title: "Community Hub",
+  //   href: "/community",
+  //   icon: <IconMeeple className="h-6 w-6 text-green-800" />, removed due to redudancy
+  // },
   {
     title: "Event Hub",
     href: "/event",
@@ -35,6 +38,11 @@ const navItems = [
     title: "Bounties",
     href: "/bounty",
     icon: <IconMoneybag className="h-6 w-6 text-green-800" />,
+  },
+  {
+    title: "Create Event",
+    href: "/create",
+    icon: <IconPlus className="h-6 w-6 text-green-800" />,
   },
 ];
 
@@ -51,6 +59,7 @@ export default function RootLayout({ children }) {
   return (
       <html lang="en">
         <body className={`${pixelify.className} antialiased`}>
+        <Navbar />
           {children}
 
           <div className="fixed bottom-0 right-0 z-50 md:items-center md:flex md:w-full md: md:justify-center md:mx-auto m-10">
