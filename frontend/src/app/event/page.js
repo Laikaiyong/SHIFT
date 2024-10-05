@@ -185,7 +185,10 @@ const EventPage = () => {
             content: (
                 <div ref={el => timelineRefs.current['6-10-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
                     {eventCardsData
-                        .filter(event => new Date(event.date).getMonth() === 9) // December is month 11 (0-indexed)
+                        .filter(event => {
+                            const eventDate = new Date(event.date);
+                            return eventDate.getMonth() === 9 && eventDate.getDate() === 6; // October is month 9 (0-indexed)
+                        }) 
                         .map((event, index) => (
                             <EventCard
                                 key={index}
@@ -205,7 +208,10 @@ const EventPage = () => {
             content: (
                 <div ref={el => timelineRefs.current['7-10-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
                     {eventCardsData
-                        .filter(event => new Date(event.date).getMonth() === 10) // November is month 10 (0-indexed)
+                        .filter(event => {
+                            const eventDate = new Date(event.date);
+                            return eventDate.getMonth() === 9 && eventDate.getDate() === 7; // October is month 9 (0-indexed)
+                        }) 
                         .map((event, index) => (
                             <EventCard
                                 key={index}
@@ -225,7 +231,10 @@ const EventPage = () => {
             content: (
                 <div ref={el => timelineRefs.current['8-10-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
                     {eventCardsData
-                        .filter(event => new Date(event.date).getMonth() === 11) // October is month 9 (0-indexed)
+                        .filter(event => {
+                            const eventDate = new Date(event.date);
+                            return eventDate.getMonth() === 9 && eventDate.getDate() === 8; // October is month 9 (0-indexed)
+                        }) 
                         .map((event, index) => (
                             <EventCard
                                 key={index}
@@ -244,8 +253,8 @@ const EventPage = () => {
 
     const handleDateChange = (newDate) => {
         setDate(newDate);
-        const monthYear = `${newDate.getMonth() + 1}-${newDate.getFullYear()}`;
-        scrollToMonth(monthYear);
+        const date = `${newDate.getDate()}-${newDate.getMonth() + 1}-${newDate.getFullYear()}`;
+        scrollToMonth(date);
     };
 
     const scrollToMonth = (monthYear) => {
