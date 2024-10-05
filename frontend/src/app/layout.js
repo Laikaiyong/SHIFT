@@ -1,6 +1,7 @@
 import { Pixelify_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import './home.css';
+import {NextUIProvider} from "@nextui-org/react";
 import {
   IconHome,
   IconTrendingUp,
@@ -59,6 +60,7 @@ const pixelify = JetBrains_Mono({
 export default function RootLayout({ children }) {
   return (
       <html lang="en">
+        <NextUIProvider>
         <body className={`${pixelify.className} antialiased`}>
         <Navbar />
           {children}
@@ -71,6 +73,7 @@ export default function RootLayout({ children }) {
             />
           </div>
         </body>
+        </NextUIProvider>
       </html>
   );
 }

@@ -57,7 +57,7 @@ const eventCardsData = [
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
         date: "2024-10-06",
-        time: 
+        time: "10:00",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {
@@ -66,6 +66,7 @@ const eventCardsData = [
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
         date: "2024-10-06",
+        time: "13:00",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {
@@ -74,6 +75,7 @@ const eventCardsData = [
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
         date: "2024-10-07",
+        time: "11:00",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {
@@ -82,22 +84,7 @@ const eventCardsData = [
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
         date: "2024-10-07",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
-    },
-    {
-        title: "#ETHKL PRE PARTY",
-        description: "The premier conference for Next.js developers",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
-        date: "2024-10-07",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
-    },
-    {
-        title: "#ETHKL PRE PARTY",
-        description: "The premier conference for Next.js developers",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
-        date: "2024-10-08",
+        time: "14:00",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {
@@ -106,11 +93,30 @@ const eventCardsData = [
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
         date: "2024-10-08",
+        time: "10:00",
+        venue: "Kuala Lumpur Convention Centre, Malaysia"
+    },
+    {
+        title: "#ETHKL PRE PARTY",
+        description: "The premier conference for Next.js developers",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
+        link: "https://lu.ma/z1krlh0f",
+        date: "2024-10-08",
+        time: "13:00",
+        venue: "Kuala Lumpur Convention Centre, Malaysia"
+    },
+    {
+        title: "#ETHKL PRE PARTY",
+        description: "The premier conference for Next.js developers",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
+        link: "https://lu.ma/z1krlh0f",
+        date: "2024-10-08",
+        time: "16:00",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
 ];
 
-const EventCard = ({ title, description, image, link, date, venue }) => {
+const EventCard = ({ title, description, image, link, date, venue, time }) => {
     return (
         <CardContainer className="inter-var">
         <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[25rem] h-auto rounded-xl p-8 border  ">
@@ -136,10 +142,10 @@ const EventCard = ({ title, description, image, link, date, venue }) => {
                 alt="thumbnail"
             />
             </CardItem>
-            <CardItem translateZ="50" className="w-full mt-4 py-4 text-sm">
+            <CardItem translateZ="50" className="w-full mt-4 py-4 text-sm text-green-800">
                 <div className="flex flex-row gap-4 py-1">
                     <div><IconClock className="h-5 w-5"/></div>
-                    <div>{date}</div>
+                    <div>{time}</div>
                 </div> 
                 <div className="flex flex-row gap-4 py-1">
                     <div><IconMapPin className="h-5 w-5"/></div>
@@ -198,6 +204,7 @@ const EventPage = () => {
                                 link={event.link}
                                 date={event.date}
                                 venue={event.venue}
+                                time={event.time}
                             />
                         ))}
                 </div>
@@ -221,6 +228,7 @@ const EventPage = () => {
                                 link={event.link}
                                 date={event.date}
                                 venue={event.venue}
+                                time={event.time}
                             />
                         ))}
                 </div>
@@ -244,6 +252,7 @@ const EventPage = () => {
                                 link={event.link}
                                 date={event.date}
                                 venue={event.venue}
+                                time={event.time}
                             />
                         ))}
                 </div>
@@ -265,13 +274,18 @@ const EventPage = () => {
     };
 
     return (
-        <div>
-            <BackgroundLines className="flex items-start justify-center w-full flex-col px-4">
-            <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-8 bg-clip-text text-transparent bg-gradient-to-b from-green-800 via-neutral-700 to-green-700 dark:from-green-800 dark:via-white dark:to-white">
+        <div className="px-4">
+            <BackgroundLines className="flex items-start justify-center w-full flex-col">
+            <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-10 py-8 bg-clip-text text-transparent bg-gradient-to-b from-green-800 via-neutral-700 to-green-700 dark:from-green-800 dark:via-white dark:to-white">
                 Level up your experiences by <br /> joining <Cover>exciting events</Cover>
             </h1>
             </BackgroundLines>
-                        <div className="flex flex-col sm:flex-row px-4">
+            <h1 className="text-2xl text-black">
+            <p className="shadow-[0_0_0_3px_#000000_inset] mx-8 px-6 py-2 bg-transparent border border-black dark:border-white dark:text-white text-black rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
+                ETH KL 2024 Events
+            </p>
+            </h1>
+            <div className="flex flex-col sm:flex-row">
                 <div>
                     <Timeline data={TimelineData} />
                 </div>
@@ -281,7 +295,7 @@ const EventPage = () => {
                             mode="single"
                             selected={date}
                             onSelect={handleDateChange}
-                            className="rounded-md border"
+                            className="rounded-md border text-black"
                         />
                     </div> 
                 </div>

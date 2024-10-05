@@ -1,11 +1,11 @@
-import { ethers } from 'ethers';
+import Web3 from "web3";
 import BountyContractABI from '../../abi/BountyContract.json';
 
 const contractAddress = "0x824c942238165f7F82BBb48FEEA4Ef597392824e"; // Replace with your actual contract address
 
 // Initialize ethers provider and contract
 const signer = ethereum.selectedAddress;
-const bountyContract = new ethers.Contract(contractAddress, BountyContractABI, signer);
+const contract = new web3.eth.Contract(BountyContractABI, contractAddress);
 
 // Create a bounty
 //Data Type
