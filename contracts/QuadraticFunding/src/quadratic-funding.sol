@@ -1,35 +1,57 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.27;
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "./event-management.sol"; // Import the EventHubManagement contract
 
 contract QuadraticFunding {
     using SafeMath for uint256;
 
+    struct Event {
+        string name;
+        uint256 startDateTime;
+        uint256 endDateTime;
+        address organizer;
+        bool isApproved;
+    }
+
     IERC20 public token;
     uint256 public matchingPoolAmount;
+    mapping(uint256 => Event) public events;
+    uint256 public eventCount;
     mapping(address => mapping(uint256 => uint256)) public contributions;
     mapping(uint256 => address[]) public projectsByEvent;
-    address public eventHub; // Address of EventHubManagement contract
 
-    constructor(IERC20 _token, uint256 _matchingPoolAmount, address _eventHub) {
+    event EventSubmitted(uint256 indexed id, string name, uint256 startDateTime, uint256 endDateTime, address organizer);
+    event EventApproved(uint256 indexed id);
+
+    constructor(IERC20 _token, uint256 _matchingPoolAmount) {
         token = _token;
         matchingPoolAmount = _matchingPoolAmount;
-        eventHub = _eventHub; // Store the address
+    }
+
+    // Submit and schedule an event
+    function submitEvent(string memory _name, uint256 _startDateTime, uint256 _endDateTime) external {
+        require(_startDateTime < _endDateTime, "Invalid time range");
+        require(!hasConflict(_startDateTime, _endDateTime), "Time slot conflict");
+
+        eventCount++;
+        events[eventCount] = Event(_name, _startDateTime, _endDateTime, msg.sender, false);
+
+        emit EventSubmitted(eventCount, _name, _startDateTime, _endDateTime, msg.sender);
+    }
+
+    // Approve an event
+    function approveEvent(uint256 _id) external {
+        require(!events[_id].isApproved, "Event already approved");
+        events[_id].isApproved = true;
+        emit EventApproved(_id);
     }
 
     // Contribute to a project for a specific event
     function contribute(uint256 _eventId, address _project, uint256 _amount) external {
         require(token.transferFrom(msg.sender, address(this), _amount), "Transfer failed");
-
-        // Check if the event is approved using EventHubManagement contract
-        (bool success, bytes memory result) = eventHub.call(abi.encodeWithSignature("events(uint256)", _eventId));
-        require(success, "EventHub call failed");
-
-        (string memory name, uint256 startDateTime, uint256 endDateTime, address organizer, bool isApproved) = abi.decode(result, (string, uint256, uint256, address, bool));
-        require(isApproved, "Event is not approved");
+        require(events[_eventId].isApproved, "Event is not approved");
 
         contributions[_project][_eventId] = contributions[_project][_eventId].add(_amount);
 
@@ -58,14 +80,27 @@ contract QuadraticFunding {
 
     // Distribute funds for a specific event
     function distributefunds(uint256 _eventId) external {
-        require(eventHub.events(_eventId).isApproved, "Event is not approved");
+        require(events[_eventId].isApproved, "Event is not approved");
         uint256[] memory allocations = calculateAllocation(_eventId);
         for (uint256 i = 0; i < projectsByEvent[_eventId].length; i++) {
             require(token.transfer(projectsByEvent[_eventId][i], allocations[i]), "Transfer failed");
         }
     }
 
-    // Check if a project exists for a specific event
+    function hasConflict(uint256 _startDateTime, uint256 _endDateTime) internal view returns (bool) {
+        for (uint256 i = 1; i <= eventCount; i++) {
+            Event storage existingEvent = events[i];
+            if (existingEvent.isApproved && existingEvent.startDateTime > 0) {
+                if ((_startDateTime >= existingEvent.startDateTime && _startDateTime < existingEvent.endDateTime) ||
+                    (_endDateTime > existingEvent.startDateTime && _endDateTime <= existingEvent.endDateTime) ||
+                    (_startDateTime <= existingEvent.startDateTime && _endDateTime >= existingEvent.endDateTime)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     function projectExists(uint256 _eventId, address _project) internal view returns (bool) {
         address[] memory projects = projectsByEvent[_eventId];
         for (uint256 i = 0; i < projects.length; i++) {

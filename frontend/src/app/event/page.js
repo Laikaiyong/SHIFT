@@ -256,20 +256,13 @@ const EventPage = () => {
         }
     };
 
-    useEffect(() => {
-        // Initial scroll to the current month
-        const currentMonthYear = `${date.getMonth() + 1}-${date.getFullYear()}`;
-        scrollToMonth(currentMonthYear);
-    }, []);
-
     return (
         <div>
-            <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
+            <BackgroundLines className="flex items-center justify-center w-full flex-col px-4 bg-grey-200">
             <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-8 bg-clip-text text-transparent bg-gradient-to-b from-green-800 via-neutral-700 to-green-700 dark:from-green-800 dark:via-white dark:to-white">
                 Level up your experiences by <br /> joining <Cover>exciting events</Cover>
             </h1>
             </BackgroundLines>
-            <Divider />
             <div className="flex flex-row">
                 <div >
                     <Timeline data={TimelineData} />

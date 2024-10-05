@@ -57,7 +57,7 @@ export function SpinningCube() {
 }
 
 function Cube() {
-  const ref = useRef<any>()
+  const ref = useRef();
 
   const speedFactor = 0.3 // Adjust this value to control the speed
 
