@@ -1,7 +1,13 @@
 import abi from "../../abi/EventHubManagement.json"
 import Web3 from "web3";
 
-const web3 = new Web3(window.ethereum);
+let web3;
+if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
+  web3 = new Web3(window.ethereum);
+} else {
+  // Handle the case when window or window.ethereum is not defined
+  web3 = new Web3();
+}
 
 const contractAddress = "0xeBdF352B7A61Dc246D415D9A964C81c6522fF640";
 const signer = ethereum.selectedAddress;
@@ -31,7 +37,11 @@ export const approveEvent = async(id) => {
 export const voteForEvent = async (eventId) => {
     try {
         // Ensure the user is connected with MetaMask and authorized
-        await window.ethereum.request({ method: "eth_requestAccounts" });
+        if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
+            await window.ethereum.request({ method: "eth_requestAccounts" });
+        } else {
+            throw new Error('MetaMask is not available.');
+        }
 
         // Sending the transaction to MetaMask and waiting for confirmation
         const tx = await contract.methods.voteForEvent(eventId).send({ from: signer });
