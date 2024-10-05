@@ -1,4 +1,3 @@
-// app/bounties/page.js
 "use client";
 
 import React from 'react';
@@ -78,7 +77,7 @@ export default function BountyPage() {
     <div className="max-w-4xl mx-auto p-4">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold flex items-center">
-          <span className="mr-2">💼</span> ETH KL Bounties
+          <span className="mr-2 text-black">💼</span> ETH KL Bounties
         </h1>
         <button className="text-blue-600 hover:underline">View All</button>
       </div>

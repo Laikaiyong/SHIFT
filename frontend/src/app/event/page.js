@@ -11,7 +11,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { BackgroundLines } from "@/components/ui/background-lines";
 
 import {
-    IconCalendarMonth,
+    IconClock,
     IconMapPin
 } from "@tabler/icons-react";
 import Link from "next/link";
@@ -56,7 +56,7 @@ const eventCardsData = [
         description: "Prepare to get lost in non-stop beats, neon lights, and an electric atmosphere that’s going to set the night on fire. Whether you're a pro dev or just looking for an unforgettable party, this is where the innovators let loose and connect. 💃🕺🔥",
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
-        date: "2024-12-01",
+        date: "2024-10-06",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {
@@ -64,23 +64,15 @@ const eventCardsData = [
         description: "Prepare to get lost in non-stop beats, neon lights, and an electric atmosphere that’s going to set the night on fire. Whether you're a pro dev or just looking for an unforgettable party, this is where the innovators let loose and connect. 💃🕺🔥",
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
-        date: "2024-12-02",
+        date: "2024-10-06",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {
         title: "#ETHKL PRE PARTY",
-        description: "Prepare to get lost in non-stop beats, neon lights, and an electric atmosphere that’s going to set the night on fire. Whether you're a pro dev or just looking for an unforgettable party, this is where the innovators let loose and connect. 💃🕺🔥",
+        description: "Prepare to get lost in non-stop beats, neon lights, and an electric atmosphere that’s going to set the night on fire.",
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
-        date: "2024-12-03",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
-    },
-    {
-        title: "#ETHKL PRE PARTY",
-        description: "The premier conference for Next.js developers",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
-        date: "2024-11-15",
+        date: "2024-10-07",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {
@@ -88,7 +80,7 @@ const eventCardsData = [
         description: "The premier conference for Next.js developers",
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
-        date: "2024-11-20",
+        date: "2024-10-07",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {
@@ -96,7 +88,7 @@ const eventCardsData = [
         description: "The premier conference for Next.js developers",
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
-        date: "2024-10-10",
+        date: "2024-10-07",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {
@@ -104,7 +96,15 @@ const eventCardsData = [
         description: "The premier conference for Next.js developers",
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
-        date: "2024-10-25",
+        date: "2024-10-08",
+        venue: "Kuala Lumpur Convention Centre, Malaysia"
+    },
+    {
+        title: "#ETHKL PRE PARTY",
+        description: "The premier conference for Next.js developers",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
+        link: "https://lu.ma/z1krlh0f",
+        date: "2024-10-08",
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
 ];
@@ -137,7 +137,7 @@ const EventCard = ({ title, description, image, link, date, venue }) => {
             </CardItem>
             <CardItem translateZ="50" className="w-full mt-4 py-4 text-sm">
                 <div className="flex flex-row gap-4 py-1">
-                    <div><IconCalendarMonth className="h-5 w-5"/></div>
+                    <div><IconClock className="h-5 w-5"/></div>
                     <div>{date}</div>
                 </div> 
                 <div className="flex flex-row gap-4 py-1">
@@ -148,9 +148,8 @@ const EventCard = ({ title, description, image, link, date, venue }) => {
                 <AnimatedTooltip items={people} />
                 <div className="pl-6">6 attendees</div>
                 </div>
-                {/* <AvatarGroup /> */}
             </CardItem>
-            <div className="flex justify-between items-center mt-10">
+            <div className="flex justify-between items-center mt-4">
             <CardItem
                 translateZ={20}
                 as={Link}

@@ -3,8 +3,7 @@ import { ethers } from 'ethers';
 import abi from "../../abi/EventHubManagement.json"
 
 const contractAddress = "0xeBdF352B7A61Dc246D415D9A964C81c6522fF640";
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
+const signer = ethereum.selectedAddress;
 const contract = new ethers.Contract(contractAddress, abi, signer);
 
 // Submit an event
