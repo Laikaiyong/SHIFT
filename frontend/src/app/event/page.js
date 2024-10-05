@@ -1,12 +1,15 @@
 "use client";
 
+import React from "react";
+import { useRef, useEffect } from "react";
 import { Cover } from "@/components/ui/cover";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import { Timeline } from "@/components/ui/timeline";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
+import { Calendar } from "@/components/ui/calendar"
+import { BackgroundLines } from "@/components/ui/background-lines";
 
-// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
     IconCalendarMonth,
     IconMapPin
@@ -14,21 +17,6 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 
-// const AvatarGroup = () => {
-//     return (
-//       <div className="flex -space-x-3 *:ring *:ring-background">
-//         <Avatar>
-//           <AvatarImage src="/avatars/avatar-01.jpg" />
-//         </Avatar>
-//         <Avatar>
-//           <AvatarImage src="/avatars/avatar-02.jpg" />
-//         </Avatar>
-//         <Avatar>
-//           <AvatarImage src="/avatars/avatar-03.jpg" />
-//         </Avatar>
-//       </div>
-//     );
-// }
 
 const people = [
     {
@@ -124,10 +112,10 @@ const eventCardsData = [
 const EventCard = ({ title, description, image, link, date, venue }) => {
     return (
         <CardContainer className="inter-var">
-        <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-8 border  ">
+        <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[25rem] h-auto rounded-xl p-8 border  ">
             <CardItem
             translateZ="110"
-            className="text-2xl font-bold text-green-800 dark:text-white"
+            className="text-2xl font-bold text-green-900 dark:text-white"
             >
             {title}
             </CardItem>
@@ -186,90 +174,117 @@ const EventCard = ({ title, description, image, link, date, venue }) => {
     );
 };
 
-const TimelineData = [
-    {
-        title: "Oct 2024",
-        content: (
-            <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
-                {eventCardsData
-                    .filter(event => new Date(event.date).getMonth() === 9) // December is month 11 (0-indexed)
-                    .map((event, index) => (
-                        <EventCard
-                            key={index}
-                            title={event.title}
-                            description={event.description}
-                            image={event.image}
-                            link={event.link}
-                            date={event.date}
-                            venue={event.venue}
-                        />
-                    ))}
-            </div>
-        ),
-    },
-    {
-        title: "Nov 2024",
-        content: (
-            <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
-                {eventCardsData
-                    .filter(event => new Date(event.date).getMonth() === 10) // November is month 10 (0-indexed)
-                    .map((event, index) => (
-                        <EventCard
-                            key={index}
-                            title={event.title}
-                            description={event.description}
-                            image={event.image}
-                            link={event.link}
-                            date={event.date}
-                            venue={event.venue}
-                        />
-                    ))}
-            </div>
-        ),
-    },
-    {
-        title: "Dec 2024",
-        content: (
-            <div className="grid grid-cols-1 gap-2 xl:grid-cols-2">
-                {eventCardsData
-                    .filter(event => new Date(event.date).getMonth() === 11) // October is month 9 (0-indexed)
-                    .map((event, index) => (
-                        <EventCard
-                            key={index}
-                            title={event.title}
-                            description={event.description}
-                            image={event.image}
-                            link={event.link}
-                            date={event.date}
-                            venue={event.venue}
-                        />
-                    ))}
-            </div>
-        ),
-    },
-];
-
 
 const EventPage = () => {
+    const [date, setDate] = React.useState(new Date());
+    console.log(date);
+    const timelineRefs = useRef({});
+
+    const TimelineData = [
+        {
+            title: "Oct 2024",
+            content: (
+                <div ref={el => timelineRefs.current['10-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+                    {eventCardsData
+                        .filter(event => new Date(event.date).getMonth() === 9) // December is month 11 (0-indexed)
+                        .map((event, index) => (
+                            <EventCard
+                                key={index}
+                                title={event.title}
+                                description={event.description}
+                                image={event.image}
+                                link={event.link}
+                                date={event.date}
+                                venue={event.venue}
+                            />
+                        ))}
+                </div>
+            ),
+        },
+        {
+            title: "Nov 2024",
+            content: (
+                <div ref={el => timelineRefs.current['11-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+                    {eventCardsData
+                        .filter(event => new Date(event.date).getMonth() === 10) // November is month 10 (0-indexed)
+                        .map((event, index) => (
+                            <EventCard
+                                key={index}
+                                title={event.title}
+                                description={event.description}
+                                image={event.image}
+                                link={event.link}
+                                date={event.date}
+                                venue={event.venue}
+                            />
+                        ))}
+                </div>
+            ),
+        },
+        {
+            title: "Dec 2024",
+            content: (
+                <div ref={el => timelineRefs.current['12-2024'] = el} className="grid grid-cols-1 gap-2 xl:grid-cols-2">
+                    {eventCardsData
+                        .filter(event => new Date(event.date).getMonth() === 11) // October is month 9 (0-indexed)
+                        .map((event, index) => (
+                            <EventCard
+                                key={index}
+                                title={event.title}
+                                description={event.description}
+                                image={event.image}
+                                link={event.link}
+                                date={event.date}
+                                venue={event.venue}
+                            />
+                        ))}
+                </div>
+            ),
+        },
+    ];
+
+    const handleDateChange = (newDate) => {
+        setDate(newDate);
+        const monthYear = `${newDate.getMonth() + 1}-${newDate.getFullYear()}`;
+        scrollToMonth(monthYear);
+    };
+
+    const scrollToMonth = (monthYear) => {
+        const ref = timelineRefs.current[monthYear];
+        if (ref) {
+            ref.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    useEffect(() => {
+        // Initial scroll to the current month
+        const currentMonthYear = `${date.getMonth() + 1}-${date.getFullYear()}`;
+        scrollToMonth(currentMonthYear);
+    }, []);
+
     return (
         <div>
+            <BackgroundLines className="flex items-center justify-center w-full flex-col px-4">
             <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-8 bg-clip-text text-transparent bg-gradient-to-b from-green-800 via-neutral-700 to-green-700 dark:from-green-800 dark:via-white dark:to-white">
-                Level up your experiences at <Cover>events</Cover>
+                Level up your experiences by <br /> joining <Cover>exciting events</Cover>
             </h1>
-            {/* <TracingBeam className="px-2 py-4">
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
-                    {eventCardsData.map((event, index) => (
-                        <EventCard
-                            key={index}
-                            title={event.title}
-                            description={event.description}
-                            image={event.image}
-                            link={event.link}
-                        />
-                    ))}
+            </BackgroundLines>
+            <Divider />
+            <div className="flex flex-row">
+                <div >
+                    <Timeline data={TimelineData} />
                 </div>
-            </TracingBeam> */}
-            <Timeline data={TimelineData} />
+                <div className="mt-12">
+                    <div>
+                        <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={handleDateChange}
+                            className="rounded-md border"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

@@ -10,20 +10,26 @@ contract QuadraticFunding {
 
     IERC20 public token;
     uint256 public matchingPoolAmount;
-    mapping(address => mapping(uint256 => uint256)) public contributions; // Contributions per project per event
-    mapping(uint256 => address[]) public projectsByEvent; // Projects associated with an event
-    EventHubManagement public eventHub; // Reference to EventHubManagement contract
+    mapping(address => mapping(uint256 => uint256)) public contributions;
+    mapping(uint256 => address[]) public projectsByEvent;
+    address public eventHub; // Address of EventHubManagement contract
 
-    constructor(IERC20 _token, uint256 _matchingPoolAmount, EventHubManagement _eventHub) {
+    constructor(IERC20 _token, uint256 _matchingPoolAmount, address _eventHub) {
         token = _token;
         matchingPoolAmount = _matchingPoolAmount;
-        eventHub = _eventHub;
+        eventHub = _eventHub; // Store the address
     }
 
     // Contribute to a project for a specific event
     function contribute(uint256 _eventId, address _project, uint256 _amount) external {
         require(token.transferFrom(msg.sender, address(this), _amount), "Transfer failed");
-        require(eventHub.events(_eventId).isApproved, "Event is not approved");
+
+        // Check if the event is approved using EventHubManagement contract
+        (bool success, bytes memory result) = eventHub.call(abi.encodeWithSignature("events(uint256)", _eventId));
+        require(success, "EventHub call failed");
+
+        (string memory name, uint256 startDateTime, uint256 endDateTime, address organizer, bool isApproved) = abi.decode(result, (string, uint256, uint256, address, bool));
+        require(isApproved, "Event is not approved");
 
         contributions[_project][_eventId] = contributions[_project][_eventId].add(_amount);
 
