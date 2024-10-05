@@ -108,7 +108,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="navbar">
+    <nav className="navbar z-[190]">
       <Image src="/shift.png" alt="Shift Logo" width={100} height={50} />
       <Popover>
             <PopoverTrigger>

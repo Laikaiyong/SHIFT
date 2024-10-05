@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from "next/image";
-import './home.css';
 import Navbar from "@/components/custom/navbar";
 
 const Card = ({ title, description, imageSrc }) => {

@@ -57,6 +57,7 @@ const eventCardsData = [
         image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
         link: "https://lu.ma/z1krlh0f",
         date: "2024-10-06",
+        time: 
         venue: "Kuala Lumpur Convention Centre, Malaysia"
     },
     {

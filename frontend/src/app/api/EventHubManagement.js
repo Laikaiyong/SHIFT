@@ -7,6 +7,10 @@ const signer = ethereum.selectedAddress;
 const contract = new ethers.Contract(contractAddress, abi, signer);
 
 // Submit an event
+//Data Type
+//name: String
+//startDateTime: unix timestamp
+//endDat
 async function submitEvent(name, startDateTime, endDateTime) {
     const tx = await contract.submitEvent(name, startDateTime, endDateTime);
     await tx.wait();

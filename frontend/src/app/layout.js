@@ -1,5 +1,6 @@
 import { Pixelify_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import './home.css';
 import {
   IconHome,
   IconTrendingUp,
