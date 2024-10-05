@@ -1,0 +1,16 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+test = "test"
+cache_path = "forge-cache"
+
+remappings = [
+    "@openzeppelin/contracts=node_modules/@openzeppelin/contracts/",
+    "OAO/=lib/OAO/"
+]
+
+[etherscan]
+scroll = { key = "EPQ3HNE3BFJSXVVB4DV38DQSJ2TN9KZTDI", url = "https://api-sepolia.scrollscan.com/api" }
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
