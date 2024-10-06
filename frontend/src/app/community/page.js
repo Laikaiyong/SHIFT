@@ -6,7 +6,7 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { Tabs } from "@/components/ui/tabs";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { GlareCard } from "@/components/ui/glare-card";
-import {voteForEvent} from "../api/EventHubManagement.js";
+import {submitEvent, voteForEvent, approveEvent, getEvent} from "../api/EventHubManagement.js";
 // import {calculateAIResult } from "../api/prompts.js";
 
 import {
@@ -144,12 +144,12 @@ const words = [
 const CommunityPage = () => {
   const [generatedDescription, setGeneratedDescription] = useState("");
 
-  const generateDescription = async () => {
-    const prompt = "Write a short description about the Ethereum Kuala Lumpur community."; // Update this prompt as needed
-    const result = await model.generateContent(prompt);
-    setGeneratedDescription(result.response.text()); // Set the generated text
-    console.log(result.response.text());
-  };
+  // const generateDescription = async () => {
+  //   const prompt = "Write a short description about the Ethereum Kuala Lumpur community."; // Update this prompt as needed
+  //   const result = await model.generateContent(prompt);
+  //   setGeneratedDescription(result.response.text()); // Set the generated text
+  //   console.log(result.response.text());
+  // };
 
   return (
     <div className="my-16 max-w-7xl mx-auto text-center item-center pb-24">
@@ -160,6 +160,7 @@ const CommunityPage = () => {
         <HoverEffect items={stats} />
       </div>
       <TypewriterEffect words={words} className="text-sm" />
+      <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={submitEvent("testing", 1728684000, 1728856800)}>Add New Community</button>
       {/* <div className="mx-auto my-12 grid md:grid-cols-4 grid-cols-1 gap-6">
         {Communities.map((card, index) => (
           <CommunityCardv2
@@ -176,7 +177,7 @@ const CommunityPage = () => {
       <div className="my-12 grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-2">
         {Communities.map((card, index) => (
           <Modal key={index}  >
-            <ModalTrigger className="flex justify-center group/modal-btn" onClick={generateDescription()}>
+            <ModalTrigger className="flex justify-center group/modal-btn" >
                   <CommunityCardv2
                     key={index}
                     text={card.text}
@@ -267,7 +268,10 @@ const CommunityPage = () => {
                 <button className="px-2 py-1 bg-gray-200 text-black dark:bg-black dark:border-black dark:text-white border border-gray-300 rounded-md text-sm w-28">
                   Cancel
                 </button>
-                <button className="bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28" onClick={() => voteForEvent(1)}>
+                <button className="bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28" onClick={() => approveEvent(2)}>
+                  Approve this Community
+                </button>
+                <button className="bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28" onClick={() => voteForEvent(2)}>
                   Fund this Community
                 </button>
               </ModalFooter>
