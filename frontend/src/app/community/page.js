@@ -90,7 +90,7 @@ const CommunityCardv2 = ({ title, description, buttonText, image, href }) => {
   );
 };
 
-const Communities = [
+const initialCommunities = [
   {
     text: "hover",
     title: "ETH KL",
@@ -142,6 +142,8 @@ const words = [
 ];
 
 const CommunityPage = () => {
+  const [communities, setCommunities] = useState(initialCommunities);
+
   const [generatedDescription, setGeneratedDescription] = useState("");
 
   // const generateDescription = async () => {
@@ -150,6 +152,29 @@ const CommunityPage = () => {
   //   setGeneratedDescription(result.response.text()); // Set the generated text
   //   console.log(result.response.text());
   // };
+  const register = async () => {
+    try {
+      // Wait for the registerCommunity API call to finish
+      await registerCommunity("New ETH Community", "Country Name");
+  
+      // Add the new community to the state after the API call succeeds
+      const newCommunity = {
+        text: "hover",
+        title: "New ETH Community",
+        description: "Description of the new ETH community",
+        buttonText: "Fund this project",
+        image: "https://pbs.twimg.com/profile_banners/1443208602089631744/1684278570/1080x360",
+        href: "https://example.com/new-community",
+      };
+  
+      // Update the state by adding the new community
+      setCommunities((prevCommunities) => [...prevCommunities, newCommunity]);
+  
+      console.log("Community successfully registered!");
+    } catch (error) {
+      console.error("Error registering community:", error);
+    }
+  };
 
   return (
     <div className="my-16 max-w-7xl mx-auto text-center item-center pb-24">
@@ -160,7 +185,7 @@ const CommunityPage = () => {
         <HoverEffect items={stats} />
       </div>
       <TypewriterEffect words={words} className="text-sm" />
-      <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={()=>registerCommunity("ETH KL", "Malaysia")}>Add New Community</button>
+      <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={()=>register()}>Add New Community</button>
       {/* <div className="mx-auto my-12 grid md:grid-cols-4 grid-cols-1 gap-6">
         {Communities.map((card, index) => (
           <CommunityCardv2
@@ -175,7 +200,7 @@ const CommunityPage = () => {
         ))}
       </div> */}
       <div className="my-12 grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-2">
-        {Communities.map((card, index) => (
+        {communities.map((card, index) => (
           <Modal key={index}  >
             <ModalTrigger className="flex justify-center group/modal-btn" >
                   <CommunityCardv2
