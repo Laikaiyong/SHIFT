@@ -51,7 +51,7 @@ const people = [
   ];
   
 
-const eventCardsData = [
+const intialEventCardsData = [
     {
         title: "#ETHKL PRE PARTY",
         description: "Prepare to get lost in non-stop beats, neon lights, and an electric atmosphere that’s going to set the night on fire. Whether you're a pro dev or just looking for an unforgettable party, this is where the innovators let loose and connect. 💃🕺🔥",
@@ -193,28 +193,34 @@ const EventCard = ({ title, description, image, link, date, venue, time }) => {
 
 
 const EventPage = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Form input states
-  const [eventName, setEventName] = useState("");
-  const [firstInt, setFirstInt] = useState(0);
-  const [secondInt, setSecondInt] = useState(0);
-
+    const [eventCardsData, setEventCardsData] = useState(intialEventCardsData);
     const [date, setDate] = React.useState(new Date());
     const timelineRefs = useRef({});
 
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
+    const Create = async () => {
+        try {
+          // Wait for the registerCommunity API call to finish
+          await submitEvent("EthSG", 1728424800, 1728597600);
+      
+          // Add the new community to the state after the API call succeeds
+          const newCardData =  {
+            title: "#AMAZING PRE PARTY",
+            description: "Prepare to get lost in non-stop beats, neon lights, and an electric atmosphere that’s going to set the night on fire. Whether you're a pro dev or just looking for an unforgettable party, this is where the innovators let loose and connect. 💃🕺🔥",
+            image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
+            link: "https://lu.ma/z1krlh0f",
+            date: "2024-10-06",
+            time: "10:00",
+            venue: "Kuala Lumpur Convention Centre, Malaysia"
+        }
+      
+          // Update the state by adding the new community
+          setEventCardsData((prevCardsData) => [...prevCardsData, newCardData]);
+      
+          console.log("Community successfully registered!");
+        } catch (error) {
+          console.error("Error registering community:", error);
+        }
       };
-
-    const handleSubmit = () => {
-    console.log("Event Name:", eventName);
-    console.log("First Integer:", firstInt);
-    console.log("Second Integer:", secondInt);
-
-    // Close modal after submitting
-    toggleModal();
-    };
 
     const TimelineData = [
         {
@@ -317,7 +323,7 @@ const EventPage = () => {
             </p>
             </h1>
             <div>
-                <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={() =>submitEvent("EthSG", 1728424800, 1728597600)}>
+                <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={() =>Create()}>
                     Create Event
                 </button>
             </div>
