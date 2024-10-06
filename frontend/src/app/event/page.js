@@ -172,8 +172,18 @@ const EventCard = ({ title, description, image, link, date, venue, time }) => {
                 as={Link}
                 href={link}
                 className="px-4 py-2 rounded-xl bg-green-800 dark:bg-white dark:text-black text-white text-sm font-bold"
+                onClick={() => approveEvent(2)}
             >
-                Register now!
+                Approve Event
+            </CardItem>
+            <CardItem
+                translateZ={20}
+                as={Link}
+                href={link}
+                className="px-4 py-2 rounded-xl bg-green-800 dark:bg-white dark:text-black text-white text-sm font-bold"
+                onClick={() => voteForEvent(2)}
+            >
+                Fund now!
             </CardItem>
             </div>
         </CardBody>
@@ -307,7 +317,7 @@ const EventPage = () => {
             </p>
             </h1>
             <div>
-                <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={submitEvent("EthSG", 1728424800, 1728597600)}>
+                <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={() =>submitEvent("EthSG", 1728424800, 1728597600)}>
                     Create Event
                 </button>
             </div>
