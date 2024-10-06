@@ -244,7 +244,7 @@ const CommunityPage = () => {
                       <p className="p-2 text-gray-800 font-normal text-sm rounded-lg border-2 border-black">
                       {generatedDescription}
                       </p>
-                      <button onClick={() => {
+                      <button onClick={async () => {
                         //  const response = await fetch("/api/generate", {
                         //   // route to your backend will depend on implementation
                         //   method: "POST",
@@ -259,7 +259,7 @@ const CommunityPage = () => {
     // For historical reasons, you must submit the message to sign in hex-encoded UTF-8.
     // This uses a Node.js-style buffer shim in the browser.
     const msg = `0x${Buffer.from(prompt, "utf8").toString("hex")}`
-    const sign = await ethereum.request({
+    const sign = await window.ethereum.request({
       method: "personal_sign",
       params: [msg, from],
     })
