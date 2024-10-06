@@ -253,6 +253,15 @@ const CommunityPage = () => {
                         //   body: JSON.stringify({
                         //     desc: "Write a short description about the Ethereum Kuala Lumpur community."}),
                         // });
+                        const accounts = typeof window !== 'undefined' ? window.ethereum.selectedAddress : null;
+                        const from = accounts[0]
+    // For historical reasons, you must submit the message to sign in hex-encoded UTF-8.
+    // This uses a Node.js-style buffer shim in the browser.
+    const msg = `0x${Buffer.from(prompt, "utf8").toString("hex")}`
+    const sign = await ethereum.request({
+      method: "personal_sign",
+      params: [msg, from],
+    })
                         setTimeout(() => setGeneratedDescription("Imagine a mystical tree, its roots entwined with the bustling streets of Kuala Lumpur. This is the Ethereum KL community, its branches reaching out to over 3938 curious minds, offering shade and knowledge about the decentralized future. This vibrant tree thrives thanks to the dedication of 280 devoted gardeners, their contributions like magic spells, conjuring over 53.1K in resources! The air hums with innovation, a testament to their 4.6-star efforts (rated by the very stars themselves, some say). This magical tree is more than just a community; it's a beacon, attracting those eager to build, learn, and grow within the Ethereum ecosystem."), 1000)
                         // time.sleep(2)
                         
