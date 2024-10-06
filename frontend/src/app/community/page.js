@@ -6,7 +6,7 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { Tabs } from "@/components/ui/tabs";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { GlareCard } from "@/components/ui/glare-card";
-import {submitEvent, voteForEvent, approveEvent, getEvent} from "../api/EventHubManagement.js";
+import {registerCommunity} from "../api/RegisterCommunity.js";
 // import {calculateAIResult } from "../api/prompts.js";
 
 import {
@@ -160,7 +160,7 @@ const CommunityPage = () => {
         <HoverEffect items={stats} />
       </div>
       <TypewriterEffect words={words} className="text-sm" />
-      <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={submitEvent("testing", 1728684000, 1728856800)}>Add New Community</button>
+      <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={()=>registerCommunity("ETH KL", "Malaysia")}>Add New Community</button>
       {/* <div className="mx-auto my-12 grid md:grid-cols-4 grid-cols-1 gap-6">
         {Communities.map((card, index) => (
           <CommunityCardv2
