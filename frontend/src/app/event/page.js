@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRef, useEffect } from "react";
+import { useRef, useState } from "react";
 import { Cover } from "@/components/ui/cover";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
 import { TracingBeam } from "@/components/ui/tracing-beam";
@@ -9,6 +9,7 @@ import { Timeline } from "@/components/ui/timeline";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 import { Calendar } from "@/components/ui/calendar"
 import { BackgroundLines } from "@/components/ui/background-lines";
+import {submitEvent, voteForEvent, approveEvent, getEvent} from "../api/EventHubManagement.js";
 
 import {
     IconClock,
@@ -171,8 +172,18 @@ const EventCard = ({ title, description, image, link, date, venue, time }) => {
                 as={Link}
                 href={link}
                 className="px-4 py-2 rounded-xl bg-green-800 dark:bg-white dark:text-black text-white text-sm font-bold"
+                onClick={() => approveEvent(2)}
             >
-                Register now!
+                Approve Event
+            </CardItem>
+            <CardItem
+                translateZ={20}
+                as={Link}
+                href={link}
+                className="px-4 py-2 rounded-xl bg-green-800 dark:bg-white dark:text-black text-white text-sm font-bold"
+                onClick={() => voteForEvent(2)}
+            >
+                Fund now!
             </CardItem>
             </div>
         </CardBody>
@@ -182,8 +193,28 @@ const EventCard = ({ title, description, image, link, date, venue, time }) => {
 
 
 const EventPage = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Form input states
+  const [eventName, setEventName] = useState("");
+  const [firstInt, setFirstInt] = useState(0);
+  const [secondInt, setSecondInt] = useState(0);
+
     const [date, setDate] = React.useState(new Date());
     const timelineRefs = useRef({});
+
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+      };
+
+    const handleSubmit = () => {
+    console.log("Event Name:", eventName);
+    console.log("First Integer:", firstInt);
+    console.log("Second Integer:", secondInt);
+
+    // Close modal after submitting
+    toggleModal();
+    };
 
     const TimelineData = [
         {
@@ -285,6 +316,11 @@ const EventPage = () => {
                 ETH KL 2024 Events
             </p>
             </h1>
+            <div>
+                <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={() =>submitEvent("EthSG", 1728424800, 1728597600)}>
+                    Create Event
+                </button>
+            </div>
             <div className="flex flex-col sm:flex-row">
                 <div>
                     <Timeline data={TimelineData} />
