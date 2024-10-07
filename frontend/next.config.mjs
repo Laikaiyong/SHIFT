@@ -1,8 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: ['images.unsplash.com', 'images.lumacdn.com', 'static.vecteezy.com', 'framerusercontent.com', 'pbs.twimg.com']
-    }
+  images: {
+    domains: [
+      "superteam.fun",
+      "images.spr.so",
+      "images.unsplash.com",
+      "images.lumacdn.com",
+      "static.vecteezy.com",
+      "framerusercontent.com",
+      "pbs.twimg.com",
+    ],
+  },
 };
 
 export default nextConfig;

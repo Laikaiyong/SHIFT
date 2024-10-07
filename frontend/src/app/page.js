@@ -78,10 +78,10 @@ const Dashboard = () => {
         <div className="flex flex-col min-h-screen bg-white">
           <div className="flex-grow flex flex-col items-center justify-center p-8">
             <div className="mb-8">
-              <Image src="/shift.png" alt="Shift Logo" width={200} height={200} />
+              <Image src="/breaks.png" alt="Breaks Logo" width={200} height={200} />
             </div>
             <h1 className="text-5xl font-bold text-green-800 mb-12">
-              Welcome to Shift, we are REDEFINING
+              Welcome to Breaks, we are REDEFINING
             </h1>
             <div className="m-10 flex flex-wrap justify-center items-center gap-8">
               {cards.map((card, index) => (

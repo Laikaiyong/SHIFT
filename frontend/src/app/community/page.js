@@ -6,9 +6,6 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { Tabs } from "@/components/ui/tabs";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
 import { GlareCard } from "@/components/ui/glare-card";
-import {registerCommunity} from "../api/RegisterCommunity.js";
-// import {calculateAIResult } from "../api/prompts.js";
-
 import {
   Modal,
   ModalBody,
@@ -16,6 +13,8 @@ import {
   ModalFooter,
   ModalTrigger,
 } from "@/components/ui/animated-modal";
+import { handleSolanaTransaction } from '../api/solana';
+import { useConnection } from "@solana/wallet-adapter-react";
 
 import { 
   IconBrandInstagram,
@@ -25,6 +24,7 @@ import {
 
 import Image from "next/image";
 import axios from "axios";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 // const prompt = "Write a story about a magic backpack.";
 
@@ -55,6 +55,8 @@ export const stats = [
 ];
 
 const CommunityCardv2 = ({ title, description, buttonText, image, href }) => {
+  const wallet = useWallet();
+  const {connection} = useConnection();
   return (
     <div className="block">
       {/* <a
@@ -93,35 +95,35 @@ const CommunityCardv2 = ({ title, description, buttonText, image, href }) => {
 const initialCommunities = [
   {
     text: "hover",
-    title: "ETH KL",
-    description: "KL ETH People",
+    title: "Superteam Malaysia",
+    description: "Put Malaysia on the Map!",
     buttonText: "Fund this project",
-    image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,quality=75,width=1250,height=357.14285714285717/calendar-cover-images/4i/efe41956-0d33-485d-975f-7c5c47a5c2d2",
-    href: "https://www.2024.ethkl.org/",
+    image: "https://pbs.twimg.com/media/GYD9vUCbEAAk0x2?format=jpg&name=large",
+    href: "https://x.com/SuperteamMY",
   },
   {
     text: "hover",
-    title: "ETHIndia",
-    description: "India ETH People",
+    title: "Superteam India",
+    description: "India Solana People",
     buttonText: "Fund this project",
-    image: "https://pbs.twimg.com/profile_banners/964919649837056000/1677672190/1500x500",
-    href: "https://ethglobal.com/events/india2024",
+    image: "https://superteam.fun/_app/immutable/assets/india.14f39b5e.webp",
+    href: "https://in.superteam.fun/",
   },
   {
     text: "click",
-    title: "ETHDenver",
-    description: "Denver ETH People",
+    title: "Superteam UAE",
+    description: "UAE Solana People",
     buttonText: "Support this project",
-    image: "https://pbs.twimg.com/profile_banners/754438462141378560/1723141015/1080x360",
-    href: "https://www.ethdenver.com/",
+    image: "https://superteam.fun/_app/immutable/assets/uae.6c282c05.webp",
+    href: "https://uae.superteam.fun/",
   },
   {
     text: "click",
-    title: "ETHBarcelona",
-    description: "Barcelona ETH People",
+    title: "Superteam Vietnam",
+    description: "Vietnam Solana People",
     buttonText: "Support this project",
-    image: "https://pbs.twimg.com/profile_banners/1443208602089631744/1684278570/1080x360",
-    href: "https://ethbarcelona.com/",
+    image: "https://superteam.fun/_app/immutable/assets/vietnam.6ebba583.webp",
+    href: "https://vn.superteam.fun/",
   },
 ];
 
@@ -155,15 +157,15 @@ const CommunityPage = () => {
   const register = async () => {
     try {
       // Wait for the registerCommunity API call to finish
-      await registerCommunity("New ETH Community", "Country Name");
+      // await registerCommunity("New ETH Community", "Country Name");
   
       // Add the new community to the state after the API call succeeds
       const newCommunity = {
         text: "hover",
-        title: "New ETH Community",
-        description: "Description of the new ETH community",
+        title: "New Solana Community",
+        description: "Description of the new Solana community",
         buttonText: "Fund this project",
-        image: "https://pbs.twimg.com/profile_banners/1443208602089631744/1684278570/1080x360",
+        image: "https://superteam.fun/_app/immutable/assets/malaysia.1a833eb8.webp",
         href: "https://example.com/new-community",
       };
   
@@ -176,6 +178,9 @@ const CommunityPage = () => {
     }
   };
 
+  const wallet = useWallet();
+  const {connection} = useConnection();
+
   return (
     <div className="my-16 max-w-7xl mx-auto text-center item-center pb-24">
       <h1 className="text-4xl md:text-4xl lg:text-5xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
@@ -185,7 +190,7 @@ const CommunityPage = () => {
         <HoverEffect items={stats} />
       </div>
       <TypewriterEffect words={words} className="text-sm" />
-      <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={()=>register()}>Add New Community</button>
+      <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={()=>handleSolanaTransaction (wallet, connection)}>Add New Community</button>
       {/* <div className="mx-auto my-12 grid md:grid-cols-4 grid-cols-1 gap-6">
         {Communities.map((card, index) => (
           <CommunityCardv2
@@ -218,30 +223,30 @@ const CommunityPage = () => {
                 <div className="relative isolate flex flex-col justify-end rounded-2xl px-8 pb-12 pt-36 w-full">
                   <img
                     className="absolute z-40 rounded-full top-20 left-8 h-40 w-40 object-cover border-black border-2"
-                    src="https://pbs.twimg.com/profile_images/1738526306437148672/Zdqy1l8f_400x400.jpg"
+                    src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/b9e23154-f5f8-441f-abd6-e180f7e073fa/Malaysia/w=256,quality=90,fit=scale-down"
                     alt="Profile"
                   />
                   <img
                     className="absolute rounded-t-lg inset-0 h-full w-full object-cover border-black border-2"
-                    src="https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,quality=75,width=1250,height=357.14285714285717/calendar-cover-images/4i/efe41956-0d33-485d-975f-7c5c47a5c2d2"
+                    src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/e069e780-345a-4639-b348-c33d908727b1/MY_Header/w=2048,quality=90,fit=scale-down"
                     alt="Banner"
                   />
                 </div>
                 <div className="flex flex-row justify-end gap-4 px-6 py-4">
                   <a
-                    href="https://instagram.com/ethkl1"
+                    href="https://www.instagram.com/superteammy/"
                     className="bg-white text-gray-800 dark:text-white dark:bg-gray-800 rounded-lg"
                   >
                     <IconBrandInstagram />
                   </a>
                   <a
-                    href="https://x.com/ethkl1"
+                    href="https://twitter.com/superteammy"
                     className="bg-white text-gray-800 dark:text-white dark:bg-gray-800 rounded-lg"
                   >
                     <IconBrandX />
                   </a>
                   <a
-                    href="https://2024.ethkl.org/"
+                    href="https://my.superteam.fun/"
                     className="bg-white text-gray-800 dark:text-white dark:bg-gray-800 rounded-lg"
                   >
                     <IconWorldWww />
@@ -270,25 +275,7 @@ const CommunityPage = () => {
                       {generatedDescription}
                       </p>
                       <button onClick={async () => {
-                        //  const response = await fetch("/api/generate", {
-                        //   // route to your backend will depend on implementation
-                        //   method: "POST",
-                        //   headers: {
-                        //     "Content-Type": "application/json",
-                        //   },
-                        //   body: JSON.stringify({
-                        //     desc: "Write a short description about the Ethereum Kuala Lumpur community."}),
-                        // });
-                        // const accounts = typeof window !== 'undefined' ? window.ethereum.selectedAddress : null;
-                        // const from = accounts[0]
-    // For historical reasons, you must submit the message to sign in hex-encoded UTF-8.
-    // This uses a Node.js-style buffer shim in the browser.
-    const msg = `0x${Buffer.from(prompt, "utf8").toString("hex")}`
-    const sign = await window.ethereum.request({
-      method: "personal_sign",
-      params: [msg, "0x751Fd4490F06770809F67EA112E3fCAa31aA64bE"],
-    })
-                        setTimeout(() => setGeneratedDescription("Imagine a mystical tree, its roots entwined with the bustling streets of Kuala Lumpur. This is the Ethereum KL community, its branches reaching out to over 3938 curious minds, offering shade and knowledge about the decentralized future. This vibrant tree thrives thanks to the dedication of 280 devoted gardeners, their contributions like magic spells, conjuring over 53.1K in resources! The air hums with innovation, a testament to their 4.6-star efforts (rated by the very stars themselves, some say). This magical tree is more than just a community; it's a beacon, attracting those eager to build, learn, and grow within the Ethereum ecosystem."), 4000)
+   setTimeout(() => setGeneratedDescription("Imagine a mystical tree, its roots entwined with the bustling streets of Kuala Lumpur. This is the Superteam Malaysia community, its branches reaching out to over 3938 curious minds, offering shade and knowledge about the decentralized future. This vibrant tree thrives thanks to the dedication of 280 devoted gardeners, their contributions like magic spells, conjuring over 53.1K in resources! The air hums with innovation, a testament to their 4.6-star efforts (rated by the very stars themselves, some say). This magical tree is more than just a community; it's a beacon, attracting those eager to build, learn, and grow within the Ethereum ecosystem."), 4000)
                         // time.sleep(2)
                         
                       }} className="bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 my-2 rounded-md border border-black w-28">
@@ -302,7 +289,7 @@ const CommunityPage = () => {
                 <button className="px-2 py-1 bg-gray-200 text-black dark:bg-black dark:border-black dark:text-white border border-gray-300 rounded-md text-sm w-28">
                   Cancel
                 </button>
-                <button className="bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28" onClick={() => voteForEvent(2)}>
+                <button className="bg-black text-white dark:bg-white dark:text-black text-sm px-2 py-1 rounded-md border border-black w-28" onClick={() => handleSolanaTransaction (wallet, connection)}>
                   Fund this Community
                 </button>
               </ModalFooter>

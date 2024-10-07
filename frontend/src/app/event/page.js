@@ -9,15 +9,15 @@ import { Timeline } from "@/components/ui/timeline";
 import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
 import { Calendar } from "@/components/ui/calendar"
 import { BackgroundLines } from "@/components/ui/background-lines";
-import {submitEvent, voteForEvent, approveEvent, getEvent} from "../api/EventHubManagement.js";
-
 import {
     IconClock,
     IconMapPin
 } from "@tabler/icons-react";
 import Link from "next/link";
 import Image from "next/image";
-
+import { handleSolanaTransaction } from '../api/solana';
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useConnection } from "@solana/wallet-adapter-react";
 
 const people = [
     {
@@ -53,71 +53,66 @@ const people = [
 
 const eventCardsData = [
     {
-        title: "#ETHKL PRE PARTY",
+        title: "Wormhole Monthly Meetup",
         description: "Prepare to get lost in non-stop beats, neon lights, and an electric atmosphere that’s going to set the night on fire. Whether you're a pro dev or just looking for an unforgettable party, this is where the innovators let loose and connect. 💃🕺🔥",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=1,background=white,quality=75,width=400,height=400/event-covers/ss/84f94b52-9267-4f94-b7e0-d74b5d6a1eaa",
         date: "2024-10-06",
         time: "10:00",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
+        venue: "Sunway University"
     },
     {
-        title: "#ETHKL PRE PARTY",
+        title: "Wormhole Monthly Meetup",
         description: "Prepare to get lost in non-stop beats, neon lights, and an electric atmosphere that’s going to set the night on fire. Whether you're a pro dev or just looking for an unforgettable party, this is where the innovators let loose and connect. 💃🕺🔥",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=1,background=white,quality=75,width=400,height=400/event-covers/ss/84f94b52-9267-4f94-b7e0-d74b5d6a1eaa",
         date: "2024-10-06",
         time: "13:00",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
+        venue: "Sunway University"
     },
     {
-        title: "#ETHKL PRE PARTY",
+        title: "Wormhole Monthly Meetup",
         description: "Prepare to get lost in non-stop beats, neon lights, and an electric atmosphere that’s going to set the night on fire.",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=1,background=white,quality=75,width=400,height=400/event-covers/ss/84f94b52-9267-4f94-b7e0-d74b5d6a1eaa",
         date: "2024-10-07",
         time: "11:00",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
+        venue: "Sunway University"
     },
     {
-        title: "#ETHKL PRE PARTY",
+        title: "Wormhole Monthly Meetup",
         description: "The premier conference for Next.js developers",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=1,background=white,quality=75,width=400,height=400/event-covers/ss/84f94b52-9267-4f94-b7e0-d74b5d6a1eaa",
         date: "2024-10-07",
         time: "14:00",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
+        venue: "Sunway University"
     },
     {
-        title: "#ETHKL PRE PARTY",
+        title: "Wormhole Monthly Meetup",
         description: "The premier conference for Next.js developers",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=1,background=white,quality=75,width=400,height=400/event-covers/ss/84f94b52-9267-4f94-b7e0-d74b5d6a1eaa",
         date: "2024-10-08",
         time: "10:00",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
+        venue: "Sunway University"
     },
     {
-        title: "#ETHKL PRE PARTY",
+        title: "Wormhole Monthly Meetup",
         description: "The premier conference for Next.js developers",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=1,background=white,quality=75,width=400,height=400/event-covers/ss/84f94b52-9267-4f94-b7e0-d74b5d6a1eaa",
         date: "2024-10-08",
         time: "13:00",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
+        venue: "Sunway University"
     },
     {
-        title: "#ETHKL PRE PARTY",
+        title: "Wormhole Monthly Meetup",
         description: "The premier conference for Next.js developers",
-        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=2,background=white,quality=75,width=400,height=400/event-covers/td/d903d32a-cf54-4957-8ede-b1568f018a80",
-        link: "https://lu.ma/z1krlh0f",
+        image: "https://images.lumacdn.com/cdn-cgi/image/format=auto,fit=cover,dpr=1,background=white,quality=75,width=400,height=400/event-covers/ss/84f94b52-9267-4f94-b7e0-d74b5d6a1eaa",
         date: "2024-10-08",
         time: "16:00",
-        venue: "Kuala Lumpur Convention Centre, Malaysia"
+        venue: "Sunway University"
     },
 ];
 
-const EventCard = ({ title, description, image, link, date, venue, time }) => {
+const EventCard = ({ title, description, image, date, venue, time }) => {
+    const wallet = useWallet();
+    const {connection} = useConnection();
     return (
         <CardContainer className="inter-var">
         <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[25rem] h-auto rounded-xl p-8 border  ">
@@ -160,8 +155,6 @@ const EventCard = ({ title, description, image, link, date, venue, time }) => {
             <div className="flex justify-between items-center mt-4">
             <CardItem
                 translateZ={20}
-                as={Link}
-                href={link}
                 target="__blank"
                 className="px-4 py-2 rounded-xl text-xs font-normal text-green-800 dark:text-white"
             >
@@ -169,19 +162,15 @@ const EventCard = ({ title, description, image, link, date, venue, time }) => {
             </CardItem>
             <CardItem
                 translateZ={20}
-                as={Link}
-                href={link}
                 className="px-4 py-2 rounded-xl bg-green-800 dark:bg-white dark:text-black text-white text-sm font-bold"
-                onClick={() => approveEvent(2)}
+                onClick={() => handleSolanaTransaction (wallet, connection)}
             >
                 Approve Event
             </CardItem>
             <CardItem
                 translateZ={20}
-                as={Link}
-                href={link}
                 className="px-4 py-2 rounded-xl bg-green-800 dark:bg-white dark:text-black text-white text-sm font-bold"
-                onClick={() => voteForEvent(2)}
+                onClick={() => handleSolanaTransaction (wallet, connection)}
             >
                 Fund now!
             </CardItem>
@@ -232,7 +221,6 @@ const EventPage = () => {
                                 title={event.title}
                                 description={event.description}
                                 image={event.image}
-                                link={event.link}
                                 date={event.date}
                                 venue={event.venue}
                                 time={event.time}
@@ -256,7 +244,6 @@ const EventPage = () => {
                                 title={event.title}
                                 description={event.description}
                                 image={event.image}
-                                link={event.link}
                                 date={event.date}
                                 venue={event.venue}
                                 time={event.time}
@@ -280,7 +267,6 @@ const EventPage = () => {
                                 title={event.title}
                                 description={event.description}
                                 image={event.image}
-                                link={event.link}
                                 date={event.date}
                                 venue={event.venue}
                                 time={event.time}
@@ -313,11 +299,12 @@ const EventPage = () => {
             </BackgroundLines>
             <h1 className="text-2xl text-black">
             <p className="shadow-[0_0_0_3px_#000000_inset] mx-8 px-6 py-2 bg-transparent border border-black dark:border-white dark:text-white text-black rounded-lg font-bold transform hover:-translate-y-1 transition duration-400">
-                ETH KL 2024 Events
+                Superteam MY 2024 Events
             </p>
             </h1>
             <div>
-                <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" onClick={() =>submitEvent("EthSG", 1728424800, 1728597600)}>
+            {/* onClick={() =>submitEvent("EthSG", 1728424800, 1728597600)} */}
+                <button className="bg-green-800 text-white px-4 py-2 rounded-lg mt-4 ml-8" >
                     Create Event
                 </button>
             </div>

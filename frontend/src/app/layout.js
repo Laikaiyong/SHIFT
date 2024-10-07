@@ -1,4 +1,4 @@
-import { Pixelify_Sans, JetBrains_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import './home.css';
 import {NextUIProvider} from "@nextui-org/react";
@@ -14,6 +14,7 @@ import {
 } from "@tabler/icons-react";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import Navbar from "@/components/custom/navbar";
+import { WalletProviders } from "./providers";
 
 const navItems = [
   {
@@ -49,8 +50,8 @@ const navItems = [
 ];
 
 export const metadata = {
-  title: "SHIFT",
-  description: "Community events by SHIFT, SHIFTing how's engagement work",
+  title: "BREAKS",
+  description: "Events should take BREAKS between each other",
 };
 
 const pixelify = JetBrains_Mono({
@@ -60,6 +61,8 @@ const pixelify = JetBrains_Mono({
 export default function RootLayout({ children }) {
   return (
       <html lang="en">
+        <WalletProviders>
+          
         <NextUIProvider>
         <body className={`${pixelify.className} antialiased`}>
         <Navbar />
@@ -74,6 +77,7 @@ export default function RootLayout({ children }) {
           </div>
         </body>
         </NextUIProvider>
+        </WalletProviders>
       </html>
   );
 }

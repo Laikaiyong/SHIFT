@@ -10,7 +10,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
-    overflow: hidden; /* Hide overflowing animation */
+    /* overflow: hidden; Hide overflowing animation */
   }
   
   .navbar::after {
